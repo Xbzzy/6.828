@@ -80,3 +80,19 @@ kalloc(void)
     memset((char*)r, 5, PGSIZE); // fill with junk
   return (void*)r;
 }
+
+//Return the amount of free memory in kernel.
+int 
+kusedmem(void)
+{
+  int i,sign,mem;
+  fork();
+  for(i=1;sign == 0;i++){
+    sign = growproc(i*PGSIZE);
+  }
+  if(i%2==0)
+    mem = (i+1)*(i/2);
+  else 
+    mem = (i+2)*(i/2)+1;  
+  return mem*PGSIZE;
+}
