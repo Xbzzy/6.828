@@ -95,3 +95,19 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+uint64 
+sys_sysinfo(void)
+{
+  struct sysinfo *procinfo;
+  struct proc *p = myproc();
+  uint64 info;
+  procinfo = kalloc();
+  if(procinfo == 0)
+    panic("kalloc");
+  procinfo->freemem = usedmem();
+  procinfo->nproc = procnum();
+  if(copyout(p->pagetable, info, (char *)&procinfo, sizeof(procinfo)) < 0)
+    return -1;
+  return 0;
+}
