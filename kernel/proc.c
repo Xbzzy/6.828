@@ -654,3 +654,19 @@ procdump(void)
     printf("\n");
   }
 }
+
+// Return the pid-array of processes whose state is not UNUSED.
+int*
+procnum(void)
+{
+  int nproc[NPROC],i;
+  struct proc *p;
+  char *state;
+  for(p = proc,i=0 ; p < &proc[NPROC]; p++,i++){
+    if(p->state == UNUSED)
+      continue;
+    else 
+      nproc[i] = p->pid; 
+  }
+  return nproc;
+}
